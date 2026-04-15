@@ -24,6 +24,7 @@ import {
 } from "lucide-react"
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
+import { IoLogoVercel } from "react-icons/io5";
 
 type AuthMode = "initial" | "password" | "otp" | "signup"
 
@@ -62,7 +63,7 @@ function LoginPageContent() {
     }
   }, [isSessionPending, isOAuthReturn, session?.user])
 
-  const handleOAuthSignIn = async (provider: "google" | "github") => {
+  const handleOAuthSignIn = async (provider: "google" | "github" | "vercel") => {
     await authClient.signIn.social({
       provider,
       callbackURL: "/login?oauth=1",
@@ -246,6 +247,14 @@ function LoginPageContent() {
                 >
                   <FaGithub className="size-4" />
                   Continue with GitHub
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full gap-2"
+                  onClick={() => handleOAuthSignIn("vercel")}
+                >
+                  <IoLogoVercel className="size-4" />
+                  Continue with Vercel
                 </Button>
               </div>
 
