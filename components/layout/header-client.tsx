@@ -4,18 +4,11 @@ import { Menu } from "lucide-react"
 import { UserNav } from "./user-nav"
 import { useSidebar } from "./sidebar-context"
 import { Button } from "@/components/ui/button"
+import { authClient } from "@/lib/auth/client"
 
-interface HeaderClientProps {
-  user: {
-    id: string
-    name?: string | null
-    email?: string | null
-    image?: string | null
-  } | null
-}
-
-export function HeaderClient({ user }: HeaderClientProps) {
+export function HeaderClient() {
   const { open } = useSidebar()
+  const { data: session } = authClient.useSession()
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b border-border/50 bg-background/80 px-4 backdrop-blur-xl lg:px-6">
@@ -29,7 +22,7 @@ export function HeaderClient({ user }: HeaderClientProps) {
         <Menu className="size-5" />
       </Button>
       <div className="flex flex-1 items-center justify-end gap-3">
-        <UserNav user={user} />
+        <UserNav user={session?.user ?? null} />
       </div>
     </header>
   )

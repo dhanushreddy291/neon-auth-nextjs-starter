@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState, useEffect, useState } from "react"
+import { Suspense, useActionState, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { signInWithEmail, signUpWithEmail } from "./actions"
 import {
@@ -27,7 +27,7 @@ import { FaGithub } from "react-icons/fa"
 
 type AuthMode = "initial" | "password" | "otp" | "signup"
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [signInState, signInFormAction, isSignInPending] = useActionState(
     signInWithEmail,
     null
@@ -578,5 +578,22 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-md space-y-6">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
+            <p className="text-sm text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <LoginPageContent />
+    </Suspense>
   )
 }
